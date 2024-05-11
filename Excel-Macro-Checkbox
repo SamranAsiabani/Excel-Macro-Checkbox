@@ -1,0 +1,23 @@
+Private Sub Worksheet_Change(ByVal Target As Range)
+    Dim ws As Worksheet
+    Dim cb As CheckBox
+    Dim cell As Range
+    Dim cbTopLeft As Range
+
+    ' Set the worksheet where you want this behavior
+    Set ws = ThisWorkbook.Sheets("Name Of Your Sheet") ' Replace "Sheet1" with your sheet's name
+
+    ' Check if a change was made in the specified worksheet
+    If Not Intersect(Target, ws.UsedRange) Is Nothing Then
+        ' Loop through all checkboxes on the sheet
+        For Each cb In ws.CheckBoxes
+            ' Check if the checkbox's linked cell is different from its current cell position
+            Set cell = ws.Cells(cb.TopLeftCell.Row, cb.TopLeftCell.Column)
+            If cb.LinkedCell <> cell.Address Then
+                ' Update the linked cell to match the checkbox's position
+                cb.LinkedCell = cell.Address
+            End If
+        Next cb
+    End If
+End Sub
+
